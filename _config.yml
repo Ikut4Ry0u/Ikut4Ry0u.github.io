@@ -1,10 +1,10 @@
-title: Jekyll Serial Programmer
+title: 生田陵の作業部屋
 markdown: kramdown
 
 # for atom feed
 author:
-  name: Sharad Raj Singh Maurya
-  email: dev_sharad@outlook.com
+  name: ikuta ryou
+  email: ikutaryou3570@gmail.com
 
 plugins:
   - jemoji
