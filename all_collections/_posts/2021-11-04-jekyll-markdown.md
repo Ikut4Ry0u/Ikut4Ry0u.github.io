@@ -1,8 +1,9 @@
 ---
 layout: post
-title: Jekyll Markdown
-date: 2021-11-04
-categories: ["jekyll", "Test Post", "first post"]
+title: 自己紹介
+date: 2025-1-02
+categories: ["自己紹介"]
+image: /assets/images/x.png
 ---
 
 Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`

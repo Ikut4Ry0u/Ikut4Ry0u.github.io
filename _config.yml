@@ -16,6 +16,10 @@ collections_dir: all_collections
 collections:
   posts:
     output: true
+    ermalink: /posts/:title/
+  portfolio:
+    output: true
+    permalink: /portfolio/:path/
 
 defaults:
   - scope:
@@ -23,4 +27,9 @@ defaults:
     values:
       layout: "post"
       permalink: /posts/:title/
+  - scope:
+      path: "_portfolio"
+    values:
+      layout: "portfolio"
+
 exclude: ["sitemap.xml", "feed.xml", "LICENSE", "README.md"]
