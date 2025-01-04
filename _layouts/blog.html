@@ -8,18 +8,18 @@
       <!-- Articles Section -->
       <section id="introduce-section" class="articles">
         {% for introduce in site.introduce %}
-        <article class="article">
-          <div class="article-content">
-            {% if introduce.image %}
-            <img src="{{ introduce.image }}" alt="{{ introduce.title }}" class="article-image" />
-            {% endif %}
-            <div>
-              <h2 class="article-title">
-                <a href="{{site.baseurl}}{{introduce.url}}">{{ introduce.title }}</a>
-              </h2>
+        <a href="{{site.baseurl}}{{introduce.url}}" class="article-link">
+          <article class="article">
+            <div class="article-content">
+              {% if introduce.image %}
+              <img src="{{ introduce.image }}" alt="{{ introduce.title }}" class="article-image" />
+              {% endif %}
+              <div>
+                <h2 class="article-title">{{ introduce.title }}</h2>
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </a>
         {% endfor %}
       </section>
 
@@ -27,43 +27,41 @@
       <section id="portfolio-section" class="articles">
         <h2>ポートフォリオ</h2>
         <div id="category-filter">
-          <label for="category-select">カテゴリーを選択：</label>
-          <select id="category-select">
-            <option value="all">すべて</option>
-          </select>
+          <div id="category-buttons" class="category-buttons-container"></div>
         </div>
+
         {% assign grouped_portfolios = site.portfolio | group_by_exp:"portfolio", "portfolio.date | date: '%Y'" %}
         {% for group in grouped_portfolios reversed %}
         <div class="year-group">
           <h2 class="year">{{ group.name }}</h2>
           <div class="divider"></div>
           {% for portfolio in group.items reversed %}
-          <article class="article" data-categories="{{ portfolio.categories | join: ',' }}">
-            <div class="article-content">
-              {% if portfolio.image %}
-              <img src="{{ portfolio.image }}" alt="{{ portfolio.title }}" class="article-image" />
-              {% endif %}
-              <div>
-                <h2 class="article-title">
-                  <a href="{{site.baseurl}}{{portfolio.url}}">{{portfolio.title}}</a>
-                </h2>
-                <small class="date">{{ portfolio.date | date_to_string }}</small>
-                <div class="categories">
-                  {% for c in portfolio.categories %}
-                  <a href="#!" data-base-url="{{site.baseurl}}" class="category">{{c}}</a>
-                  {% endfor %}
+          <a href="{{site.baseurl}}{{portfolio.url}}" class="article-link">
+            <article class="article" data-categories="{{ portfolio.categories | join: ',' }}">
+              <div class="article-content">
+                {% if portfolio.image %}
+                <img src="{{ portfolio.image }}" alt="{{ portfolio.title }}" class="article-image" />
+                {% endif %}
+                <div>
+                  <h2 class="article-title">{{portfolio.title}}</h2>
+                  <small class="date">{{ portfolio.date | date_to_string }}</small>
+                  <div class="categories">
+                    {% for c in portfolio.categories %}
+                    <span class="category">{{c}}</span> <!-- spanに変更 -->
+                    {% endfor %}
+                  </div>
                 </div>
               </div>
-            </div>
-          </article>
+            </article>
+          </a>
           {% endfor %}
-        </div>
+        </div>        
         {% endfor %}
       </section>
 
+
       {% include footer.html %}
     </main>
-    {% include category-modal.html %}
     <script src="{{ site.baseurl }}/assets/js/categories-filter.js"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const categorySelect = document.getElementById("category-select");
     const portfolioSection = document.getElementById("portfolio-section");
+    const categoryButtonsContainer = document.getElementById("category-buttons");
     const portfolioArticles = portfolioSection.querySelectorAll(".article");
     const uniqueCategories = new Set();
   
@@ -10,41 +10,63 @@ document.addEventListener("DOMContentLoaded", function () {
       categories.forEach(category => uniqueCategories.add(category.trim()));
     });
   
-    // 抽出したカテゴリーを <select> に追加
+    // 抽出したカテゴリーをボタンとして追加
     uniqueCategories.forEach(category => {
       if (category) {
-        const option = document.createElement("option");
-        option.value = category;
-        option.textContent = category;
-        categorySelect.appendChild(option);
+        const button = document.createElement("button");
+        button.textContent = category;
+        button.classList.add("category-button");
+        button.dataset.category = category;
+        categoryButtonsContainer.appendChild(button);
       }
     });
   
-    // フィルター機能を追加
-    categorySelect.addEventListener("change", function () {
-      const selectedCategory = categorySelect.value;
+    // 選択されたカテゴリーを追跡
+    let selectedCategories = new Set();
   
+    // カテゴリーボタンのクリックイベント
+    categoryButtonsContainer.addEventListener("click", function (e) {
+      if (!e.target.classList.contains("category-button")) return;
+  
+      const selectedCategory = e.target.dataset.category;
+  
+      // ボタンの選択/解除
+      if (selectedCategories.has(selectedCategory)) {
+        selectedCategories.delete(selectedCategory);
+        e.target.classList.remove("active");
+      } else {
+        selectedCategories.add(selectedCategory);
+        e.target.classList.add("active");
+      }
+  
+      // 記事のフィルタリング（AND 条件）
       portfolioArticles.forEach(article => {
-        const categories = article.dataset.categories?.split(",") || [];
-        if (selectedCategory === "all" || categories.includes(selectedCategory)) {
-          // 表示アニメーション
-          article.classList.remove("hidden", "removed");
-          article.classList.add("visible");
+        const articleCategories = article.dataset.categories?.split(",").map(c => c.trim()) || [];
+        const matchesAll = Array.from(selectedCategories).every(category => articleCategories.includes(category));
+  
+        if (
+          selectedCategories.size === 0 || // 何も選択されていない場合はすべて表示
+          matchesAll
+        ) {
+          article.classList.remove("hidden");
+          requestAnimationFrame(() => {
+            article.classList.remove("removed"); // 非表示解除時に詰める動作を即座に反映
+          });
         } else {
-          // 非表示アニメーション開始
-          article.classList.remove("visible");
           article.classList.add("hidden");
   
-          // アニメーション終了後に完全に削除
+          // トランジション終了時に完全に非表示
           article.addEventListener(
             "transitionend",
             function handleTransitionEnd() {
-              article.classList.add("removed");
+              if (article.classList.contains("hidden")) {
+                article.classList.add("removed");
+              }
               article.removeEventListener("transitionend", handleTransitionEnd);
-            }
+            },
+            { once: true }
           );
         }
       });
     });
   });
-  

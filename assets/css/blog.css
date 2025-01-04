@@ -116,6 +116,11 @@ main {
   row-gap: 2rem;
   margin: 4rem 0 3rem 0;
 }
+.article-link {
+  display: block; /* ブロック全体をクリック範囲に */
+  text-decoration: none; /* 下線を除去 */
+  color: inherit; /* テキスト色を継承 */
+}
 .articles .article {
   padding: 2rem;
   background: var(--gray-3);
@@ -144,7 +149,6 @@ main {
   justify-content: flex-start;
 }
 .articles .article .categories .category {
-  margin: 0 0.5rem 0.3rem 0;
   display: block;
   color: var(--gray-4);
   background: var(--white-2);
@@ -276,32 +280,61 @@ main {
 }
 
 /* カテゴリー選択部分のスタイル */
-#category-filter-buttons {
+#category-buttons {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  flex-wrap: wrap; /* ボタンを折り返す設定 */
+  gap: 0.5rem; /* ボタン間の隙間 */
+  margin: 1rem 0;
+  justify-content: flex-start; /* 左寄せ（必要に応じてcenterやspace-betweenも可） */
 }
 
-.filter-btn {
+/* ボタンのデフォルトスタイル */
+.category-button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
-  background-color: #f0f0f0;
-  color: #333;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 0.5rem 0; /* 上下の隙間 */
+  transition: background-color 0.3s, color 0.3s;
+  flex: 0 1 auto; /* ボタンのサイズを自動調整 */
+  min-width: 100px; /* ボタンの最小幅を設定 */
 }
 
-.filter-btn:hover,
-.filter-btn.active {
-  background-color: #007bff;
+/* ダークモード */
+[data-theme="dark"] .category-button {
+  background-color: var(--dark-bg, #333);
+  color: var(--white-2, #fff);
+  border: 1px solid var(--white-2, #fff);
+  transition: transform 0.2s ease;
+}
+
+[data-theme="dark"] .category-button.active {
+  background-color: var(--accent-color, var(--white-2));
+  color: black;
+}
+
+[data-theme="dark"] .category-button:hover {
+  transform: scale(1.05); /* 枠を少し拡大 */
+  transition: transform 0.2s; /* アニメーションを追加 */
+}
+
+/* ライトモード */
+[data-theme="light"] .category-button {
+  background-color: var(--light-bg, #f0f0f0);
+  color: var(--black, #000);
+  border: 1px solid var(--black, #000);
+  transition: transform 0.2s ease;
+}
+
+[data-theme="light"] .category-button.active {
+  background-color: var(--accent-color, black);
   color: #fff;
-  transform: scale(1.05);
 }
 
-.filter-btn:focus {
-  outline: none;
+[data-theme="light"] .category-button:hover {
+  transform: scale(1.05); /* 枠を少し拡大 */
+  transition: transform 0.2s; /* アニメーションを追加 */
 }
 
 /* フィルタリング時のアニメーション */
@@ -319,4 +352,5 @@ main {
 
 .article.removed {
   display: none;
+  pointer-events: auto; /* 完全に非表示になるときは再び有効化 */
 }
