@@ -3,7 +3,7 @@ layout: post
 title: 自己紹介
 date: 2025-1-02
 categories: ["自己紹介"]
-image: /assets/images/x.png
+image: /assets/images/myicon.png
 ---
 
 Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`

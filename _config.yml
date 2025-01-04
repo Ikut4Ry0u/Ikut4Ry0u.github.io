@@ -14,19 +14,18 @@ plugins:
 
 collections_dir: all_collections
 collections:
-  posts:
+  introduce:
     output: true
-    ermalink: /posts/:title/
+    ermalink: /introduce/:title/
   portfolio:
     output: true
     permalink: /portfolio/:path/
 
 defaults:
   - scope:
-      path: "_posts"
+      path: "_introduce"
     values:
-      layout: "post"
-      permalink: /posts/:title/
+      layout: "introduce"
   - scope:
       path: "_portfolio"
     values:
